@@ -1,10 +1,10 @@
-// Elliot Smith c21075246
 // Ibotanist Prototype
 
 // All requirements
-#include "DHT.h"
-#include "rgb_lcd.h"
-#include "Arduino.h"
+#include <DHT.h>
+#include <rgb_lcd.h>
+#include <Arduino.h>
+#include <Wire.h>
 
 // The variables used for setting the colour of the LCD display
 rgb_lcd lcd;
@@ -19,10 +19,8 @@ const int buttonPin = 4;
 int buttonState; 
 int lastButtonState = HIGH;
 
-// The value for what the LCD diaplayes, 0 = Humidity and temp, 1 = hints
+// Setup values for Temp%Humid sensor
 int displayMode = 0;
-
-// Setting all the variables for the Humidity and Temperature Sensor
 #define DHTTYPE DHT20
 DHT dht(DHTTYPE);
 
@@ -51,20 +49,23 @@ void setup() {
     dht.begin();
 }
 
-  
 
 void loop() {
     // The list of the tips that will be outputted
     const char* tips[9]
       = { 
-          "Use good-quality potting soil - Good potting soil promotes healthy roots!", "Increase humidity and prevent drafts - Indoor conditions can be dry and drafty. Keep plants away from heater vents, doorways and drafty windows.", 
-          "Water your plants regulaury, make sure the soil is always damp.", "Fertilize Houseplants Periodically - Consider using fertilizer from time to time.", "Repot Overgrown Houseplants - If your plant is getting too big for it's pot, it's time to upsize!", 
-          "Remove Dust From Plants - This can prevent the leaves from being able to get the sunlight they need.", "Deadhead Flowers and Remove Dying Leaves - Make sure to remove any dead leaves or flower from your plant.",
-          "Find a site with the right light - Consider leaving your plant in a south facing window.", "Use ice cubes to water -  going away? leave some ice cube in the plant pots to slwoly water your plants."
+          "Use good-quality potting soil - Good potting soil promotes healthy roots!",
+          "Increase humidity and prevent drafts - Indoor conditions can be dry and drafty. Keep plants away from heater vents, doorways and drafty windows.", 
+          "Water your plants regulaury, make sure the soil is always damp.",
+          "Fertilize Houseplants Periodically - Consider using fertilizer from time to time.",
+          "Repot Overgrown Houseplants - If your plant is getting too big for it's pot, it's time to upsize!", 
+          "Remove Dust From Plants - This can prevent the leaves from being able to get the sunlight they need.",
+          "Deadhead Flowers and Remove Dying Leaves - Make sure to remove any dead leaves or flower from your plant.",
+          "Find a site with the right light - Consider leaving your plant in a south facing window.",
+          "Use ice cubes to water -  going away? leave some ice cube in the plant pots to slowly water your plants."
         };
 
     int buttonState = digitalRead(buttonPin);
-    float temp_hum_val[2] = {0};
 
       // This handles the changing of the display mode
       if (buttonState != lastButtonState) {
@@ -83,8 +84,11 @@ void loop() {
     String Cel = "C";
 
     // The values for Humidity and Temperature
-    float tempVal = temp_hum_val[1];
-    float humval = temp_hum_val[0];
+    float tempVal = dht.readTemperature();
+    Serial.print(tempVal);
+    float humval = dht.readHumidity();
+    Serial.print(humval);
+    delay(2000);
 
     // Concatonated strings to be printed on LCD
     String printHumid = Hum + humval + Perc;
@@ -111,7 +115,7 @@ void loop() {
               if (displayMode == 0){
                 displayMode++;
               } else {
-                displayMode = displayMode -1;
+                displayMode -= 1;
               }
             }
         }

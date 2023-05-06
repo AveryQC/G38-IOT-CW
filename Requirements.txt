@@ -1,0 +1,9 @@
+When using the local Arduino editor, ensure that you have these libraries installed:
+Accessory Shield by BiagioMkr Adafruit - 1.5.2
+Adafruit AHTX0 by Adafruit - 2.0.3
+Adafruit BusIO by Adafruit - 1.14.1
+Adafruit GFX Library by Adafruit - 1.11.5
+Adafruit SH110X by Adafruit - 2.1.8
+Adafruit Unified Sensor by Adafruit - 1.1.9
+Grove - LCD RGB Backlight by Seeed Studio - 1.0.0
+Grove Temperature And Humidity Sensor by Seeed Studio - 2.0.1
