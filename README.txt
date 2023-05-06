@@ -15,11 +15,10 @@ Hardware
         Perform a check (manually) of the levels
 
 Contributors (add name here once you've pushed a commit to the main repository):
-- [Contributor 1]
+- Jessica Davies
 - [Contributor 2]
 - [Contributor 3]
 - [Contributor 4]
 
 Software/programs
-=> GitHub - stores code for our project that can be edited at any time.
 => ThinkBoard - stores data if the data goes above a max. threshold, or a min. threshold, and alerts the user with the time and date the alert was set off.
