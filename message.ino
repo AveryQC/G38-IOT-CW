@@ -5,6 +5,7 @@
 #include <rgb_lcd.h>
 #include <Arduino.h>
 #include <Wire.h>
+#include <ezButton.h>
 
 // The variables used for setting the colour of the LCD display
 rgb_lcd lcd;
@@ -12,17 +13,14 @@ const int colorR = 150;
 const int colorG = 50;
 const int colorB = 0;
 
-// The pin that the LED button is on
-const int buttonPin = 4; 
-
-// The values for the buttons states
-int buttonState; 
-int lastButtonState = HIGH;
-
 // Setup values for Temp%Humid sensor
 int displayMode = 0;
 #define DHTTYPE DHT20
 DHT dht(DHTTYPE);
+
+ezButton button(2);
+int newVal = 0;
+int prevVal = 0;
 
 // Setting the debugging location
 #if defined(ARDUINO_ARCH_AVR)
@@ -43,9 +41,6 @@ void setup() {
     lcd.begin(16, 2);
     lcd.setRGB(colorR, colorG, colorB);
 
-    // Setting button as an input
-    pinMode(buttonPin, INPUT);
-
     dht.begin();
 }
 
@@ -65,16 +60,33 @@ void loop() {
           "Use ice cubes to water -  going away? leave some ice cube in the plant pots to slowly water your plants."
         };
 
-    int buttonState = digitalRead(buttonPin);
+    
+    button.setDebounceTime(200);
+    button.loop();
+    
+    Serial.println(button.getState());
+    
+
+    if(button.isPressed()){
+      Serial.println("pressed");
+      newVal = 1;
+    }
+    if(button.isReleased()){
+      Serial.println("released");
+      newVal = 0;
+    }
+
 
       // This handles the changing of the display mode
-      if (buttonState != lastButtonState) {
-        debug.print("Button Changed");
+      if (newVal != prevVal) {
         if (displayMode == 0){
-          displayMode++;
+          displayMode += 1;
         } else {
-          displayMode = displayMode -1;
+          displayMode -= 1;
         }
+        
+        prevVal = newVal;
+
       }
 
     // Strings used to print to the LCD screen
@@ -85,10 +97,8 @@ void loop() {
 
     // The values for Humidity and Temperature
     float tempVal = dht.readTemperature();
-    Serial.print(tempVal);
     float humval = dht.readHumidity();
-    Serial.print(humval);
-    delay(2000);
+    delay(1000);
 
     // Concatonated strings to be printed on LCD
     String printHumid = Hum + humval + Perc;
@@ -110,7 +120,7 @@ void loop() {
             lcd.print(x);
             delay(750);
             // This checks for if the button is pressed during the text scroll, ITS VERY BUGGY
-            if (buttonState != lastButtonState) {
+            if (newVal != prevVal) {
               debug.print("Button Changed");
               if (displayMode == 0){
                 displayMode++;
@@ -129,19 +139,11 @@ void loop() {
       lcd.autoscroll();
       // Loops through the list of tips
       for (int i = 0; i < 9; i++){
-          // Doesn't fucking work lol
+          
           debug.print(tips[i]);
           debug.print("\n");
-          const char printTemp[] = {tips[i]};
-          // for(auto x : printTemp){
-          //   lcd.print(x);
-          //   delay(750);
-          // }
-          // for(char printTip : tip){
-          //   lcd.print(printTip);
-          //   debug.print(printTip);
-          //   delay(750);
-          // }
+          
+          delay(750);
           lcd.clear();
         }
       lcd.noAutoscroll();
