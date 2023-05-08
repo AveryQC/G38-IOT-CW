@@ -14,11 +14,11 @@ The main potential benefactors are those who have plants growing in a larger are
 
 
 ## 5. Demonstrate all the functionalities
-
+/ Explain here what data we are gathering and how that will interact with ThingsBoard /
 
 
 ## > Explain all the functionalities you initially planned to develop but failed to do so
-We planned on having a Raspberry Pi to act as a local server so we wouldn't have to send the data to an external location (like ThinkBoard, which we are using), we failed to implement this as we did not have access to a Raspberry Pi outside of the scheduled lab sessions.
+We planned on having a Raspberry Pi to act as a local server so we wouldn't have to send the data to an external location (like ThingsBoard, which we are using), we failed to implement this as we did not have access to a Raspberry Pi outside of the scheduled lab sessions.
 
 
 ## > Explain the reasons for the failure to implement each feature
