@@ -9,9 +9,9 @@ const YourApp = () => {
     setIsLoading(true);
 
     // Replace ThingsBoard server URL
-    const thingsboardUrl = 'https://your-thingsboard-url.com';
+    const thingsboardUrl = 'https://thingsboard.cs.cf.uk';
     // Replace ThingsBoard device access token
-    const accessToken = 'your-device-access-token';
+    const accessToken = 'nbEVolyeQcmBxhLHCSqk';
 
     try {
       // Fetch telemetry data
